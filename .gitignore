@@ -7,3 +7,8 @@ gen/
 # Ignore CLion files
 cmake-build*/
 .idea/
+
+# Ignore build directory
+build/
+.cache/
+.vscode/

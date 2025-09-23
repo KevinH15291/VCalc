@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
-project(VCalcBase)
+project(VCalc)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Ensure tool dependencies.
 include(ExternalProject) # Required to download and build external projects (i.e. ANTLR).
@@ -15,8 +17,33 @@ include("${CMAKE_SOURCE_DIR}/cmake/get_mlir.cmake")
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
 
+option(ENABLE_ASAN "Enable AddressSanitizer" OFF)
+if(ENABLE_ASAN)
+  message(STATUS "ASan enabled")
+
+  # Choose flags per compiler (works for AppleClang/Clang/GNU)
+  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang")
+    set(_ASAN_COMPILE_FLAGS "-fsanitize=address -fsanitize-address-use-after-scope -fno-omit-frame-pointer -g -O1")
+    set(_ASAN_LINK_FLAGS    "-fsanitize=address")
+  elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(_ASAN_COMPILE_FLAGS "-fsanitize=address -fno-omit-frame-pointer -g -O1")
+    set(_ASAN_LINK_FLAGS    "-fsanitize=address")
+  else()
+    set(_ASAN_COMPILE_FLAGS "")
+    set(_ASAN_LINK_FLAGS    "")
+  endif()
+
+  # Apply to both C and C++; and to exe/shared/module linkers
+  set(CMAKE_C_FLAGS             "${CMAKE_C_FLAGS} ${_ASAN_COMPILE_FLAGS}")
+  set(CMAKE_CXX_FLAGS           "${CMAKE_CXX_FLAGS} ${_ASAN_COMPILE_FLAGS}")
+  set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} ${_ASAN_LINK_FLAGS}")
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${_ASAN_LINK_FLAGS}")
+  set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${_ASAN_LINK_FLAGS}")
+endif()
+
+
 # Set C++ standards.
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 # Add CXX flags.
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-comment")
