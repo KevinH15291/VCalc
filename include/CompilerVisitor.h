@@ -28,7 +28,7 @@ class CompilerVisitor : public VCalcBaseVisitor {
     std::any visitPrint(VCalcParser::PrintContext* ctx) final;
 
    private:
-    std::map<std::string, Type> types;
+    std::map<std::string, Type> ids_;
 };
 
 }  // namespace vcalc

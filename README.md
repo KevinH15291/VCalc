@@ -1,7 +1,11 @@
-# VCalcBase
-The base cmake setup for VCalc assignment.
+# VCalc
+The implementaton for VCalc assignment.
 
-Author: Braedy Kuzma (braedy@ualberta.ca)  
+Authors: Kevin and Calin
+
+
+## Base Stuff
+Author of base: Braedy Kuzma (braedy@ualberta.ca)  
 Updated by: Deric Cheung (dacheung@ualberta.ca)
 Updated by: Quinn Pham (qpham@ualberta.ca)
 

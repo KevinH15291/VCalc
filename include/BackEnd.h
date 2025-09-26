@@ -37,7 +37,7 @@ class BackEnd {
  public:
     BackEnd();
 
-    int emitModule();
+    int emitModuleOp();
     int lowerDialects();
     void dumpLLVM(std::ostream &os);
  
@@ -47,12 +47,12 @@ class BackEnd {
       
  private:
     // MLIR
-    mlir::MLIRContext context;
-    mlir::ModuleOp module;
-    std::shared_ptr<mlir::OpBuilder> builder;
-    mlir::Location loc;
+    mlir::MLIRContext context_;
+    mlir::ModuleOp moduleOp_;
+    std::shared_ptr<mlir::OpBuilder> builder_;
+    mlir::Location loc_;
 
     // LLVM 
-    llvm::LLVMContext llvm_context;
-    std::unique_ptr<llvm::Module> llvm_module;
+    llvm::LLVMContext llvm_context_;
+    std::unique_ptr<llvm::Module> llvm_module_;
 };

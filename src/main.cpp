@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
 
   std::ofstream os(argv[2]);
   BackEnd backend;
-  backend.emitModule();
+  backend.emitModuleOp();
   backend.lowerDialects();
   backend.dumpLLVM(os);
 

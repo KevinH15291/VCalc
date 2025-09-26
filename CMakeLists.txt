@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.1)
 project(VCalc)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

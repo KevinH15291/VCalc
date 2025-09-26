@@ -1,8 +1,6 @@
 grammar VCalc;
 
-file: statement* EOF;
-
-statement
+file: statement* EOF;statement
         :   decl    ';' 
         |   assign  ';' 
         |   if      ';' 
@@ -10,14 +8,14 @@ statement
         |   print   ';' 
         ;
 
-expr    :   domain                      # Domain_e   
-        |   expr '[' expr ']'           # Index_e
+expr    :   expr '[' expr ']'           # Index_e
         |   expr '..' expr              # Range_e
         |   expr op=('*'|'/'|'%') expr  # MulDivMod_e
         |   expr op=('+'|'-') expr      # AddSub_e
         |   expr op=('<'|'>') expr      # Comp_e
         |   expr op=('=='|'!=') expr    # Equality_e
         |   '(' expr ')'                # Parens_e
+        |   domain                      # Domain_e   
         |   INT                         # Int_e
         |   ID                          # ID_e
         ;
@@ -32,7 +30,7 @@ filter  :   '[' ID 'in' expr '&' expr ']' ;
 
 if      :   'if' '(' expr ')' statement* 'fi' ;
 loop    :   'loop' '(' expr ')' statement* 'pool' ;
-decl    :   type=ID assign ;
+decl    :   type=(INT_KW | VECTOR_KW) ID '=' expr;
 assign  :   ID '=' expr ;
 print   :   'print' '(' expr ')' ;
 
@@ -55,6 +53,7 @@ INT_KW  : 'int' ;
 PRINT_KW: 'print' ;
 POOL_KW : 'pool' ;
 LOOP_KW : 'loop' ;
+VECTOR_KW : 'vector' ;
 
 
 ID      :   [a-zA-Z][a-zA-Z0-9]* ; 
